@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marketplace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #F9F6F1;
+      font-family: 'Inter', sans-serif;
+    }
+    .navbar {
+      background: linear-gradient(to right, #3E2C41, #5C3D5E);
+    }
+    .navbar-brand, .nav-link {
+      color: #F9F6F1 !important;
+      font-weight: 500;
+    }
+    .heading {
+      margin: 40px 0 20px 20px;
+      color: #3E2C41;
+      font-size: 38px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      border-left: 6px solid #D4AF37;
+      padding-left: 15px;
+    }
+    .listing-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+    }
+    .listing-img {
+      max-height: 180px;
+      object-fit: contain;
+      margin-bottom: 15px;
+    }
+    .listing-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #3E2C41;
+    }
+    .listing-price {
+      font-size: 16px;
+      color: #D4AF37;
+      font-weight: 500;
+    }
+    .listing-condition {
+      font-size: 14px;
+      color: #6C5B7B;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">📚 BookNest</a>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/recommend"><i class="fas fa-book-open"></i>Recommend</a></li>
+        <li class="nav-item"><a class="nav-link" href="/marketplace"><i class="fas fa-store"></i>Marketplace</a></li>
+        <li class="nav-item"><a class="nav-link" href="/sell"><i class="fas fa-plus-circle"></i>Sell</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact"><i class="fas fa-envelope"></i>Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="heading">Buy & Sell Books</div>
+    <div class="row g-4">
+      {% for book in listings %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="listing-card">
+          <img src="{{ book.image }}" alt="Book Cover" class="img-fluid listing-img">
+          <div class="listing-title">{{ book.title }}</div>
+          <div class="listing-price">{{ book.price }}</div>
+          <div class="listing-condition">{{ book.condition }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
