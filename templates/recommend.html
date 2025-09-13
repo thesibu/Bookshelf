@@ -1,176 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Book Recommender System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #F9F6F1;
-            font-family: 'Inter', sans-serif;
-        }
-        .navbar {
-            background: linear-gradient(to right, #3E2C41, #5C3D5E);
-        }
-        .navbar-brand, .nav-link {
-            color: #F9F6F1 !important;
-            font-weight: 500;
-        }
-        .heading {
-            margin: 40px 0 20px 20px;
-            color: #3E2C41;
-            font-size: 38px;
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            border-left: 6px solid #D4AF37;
-            padding-left: 15px;
-        }
-        form {
-            margin: 20px 0 40px 20px;
-            max-width: 500px;
-        }
-        .form-control {
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        .btn-warning {
-            background-color: #D4AF37;
-            border: none;
-            font-weight: 600;
-        }
-        .book-card {
-            background-color: #FFFFFF;
-            border: 1px solid #E0E0E0;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 420px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .book-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 24px rgba(0,0,0,0.15);
-        }
-        .book-img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: contain;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            background-color: #F4F4F4;
-            padding: 10px;
-        }
-        .card-body {
-            padding: 20px;
-        }
-        .book-title {
-            color: #3E2C41;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .book-author {
-            color: #6C5B7B;
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Book Recommender System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #F9F6F1;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Enhanced Navbar Styles */
+    .navbar {
+      background: linear-gradient(to right, #3E2C41, #5C3D5E);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-bottom: 1px solid #D4AF37;
+      padding: 12px 24px;
+    }
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #D4AF37 !important;
+    }
+    .navbar-nav .nav-link {
+      color: #F9F6F1 !important;
+      font-weight: 500;
+      margin-right: 20px;
+      transition: color 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover {
+      color: #D4AF37 !important;
+    }
+    .nav-link i {
+      margin-right: 6px;
+    }
+
+    .heading {
+      margin: 40px 0 20px 20px;
+      color: #3E2C41;
+      font-size: 38px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      border-left: 6px solid #D4AF37;
+      padding-left: 15px;
+    }
+    form {
+      margin: 20px 0 40px 20px;
+      max-width: 500px;
+    }
+    .form-control {
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .btn-warning {
+      background-color: #D4AF37;
+      border: none;
+      font-weight: 600;
+    }
+    .book-card {
+      background-color: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .book-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+    }
+    .book-img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      background-color: #F4F4F4;
+      padding: 10px;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .book-title {
+      color: #3E2C41;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .book-author {
+      color: #6C5B7B;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">📚 BookNest</a>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/"><i class="fas fa-home"></i>Home</a>
-                </li>
-                <li class="nav-item">
-    <a class="nav-link" href="/marketplace"><i class="fas fa-store"></i>Marketplace</a>
-  </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/recommend"><i class="fas fa-book-open"></i>Recommend</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/contact"><i class="fas fa-envelope"></i>Contact</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="heading">Recommended Books</div>
-        <form action="/recommend_books" method="post" onsubmit="return validateInput()">
-            <input name="user_input" id="user_input" type="text" class="form-control" placeholder="Enter a book title..." list="bookList"> <br>
-            <input type="submit" class="btn btn-lg btn-warning" value="Get Recommendations">
-            <datalist id="bookList">
-                {% for title in book_titles %}
-                <option value="{{ title }}">
-                {% endfor %}
-            </datalist>
-        </form>
-
-        <div class="row g-4">
-            {% if data %}
-            {% for i in data %}
-            <div class="col-sm-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="{{ loop.index * 50 }}">
-                <div class="card book-card">
-                    <img class="book-img" src="{{ i[2] }}" alt="Book Cover">
-                    <div class="card-body">
-                        <div class="book-title">{{ i[0] }}</div>
-                        <div class="book-author">{{ i[1] }}</div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            {% endif %}
-        </div>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">📚 BookNest</a>
+      <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/"><i class="fas fa-home"></i>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/marketplace"><i class="fas fa-store"></i>Marketplace</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/recommend"><i class="fas fa-book-open"></i>Recommend</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact"><i class="fas fa-envelope"></i>Contact</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <!-- Toast Alert -->
-    <div class="toast-container">
-        <div id="toast" class="toast align-items-center text-white bg-danger border-0" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    Please enter a book title before submitting.
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="hideToast()"></button>
-            </div>
+  <div class="container">
+    <div class="heading">Recommended Books</div>
+    <form action="/recommend_books" method="post" onsubmit="return validateInput()">
+      <input name="user_input" id="user_input" type="text" class="form-control" placeholder="Enter a book title..." list="bookList"> <br>
+      <input type="submit" class="btn btn-lg btn-warning" value="Get Recommendations">
+      <datalist id="bookList">
+        {% for title in book_titles %}
+        <option value="{{ title }}">
+        {% endfor %}
+      </datalist>
+    </form>
+
+    <div class="row g-4">
+      {% if data %}
+      {% for i in data %}
+      <div class="col-sm-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="{{ loop.index * 50 }}">
+        <div class="card book-card">
+          <img class="book-img" src="{{ i[2] }}" alt="Book Cover">
+          <div class="card-body">
+            <div class="book-title">{{ i[0] }}</div>
+            <div class="book-author">{{ i[1] }}</div>
+          </div>
         </div>
+      </div>
+      {% endfor %}
+      {% endif %}
     </div>
+  </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 800, once: true });
+  <!-- Toast Alert -->
+  <div class="toast-container">
+    <div id="toast" class="toast align-items-center text-white bg-danger border-0" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          Please enter a book title before submitting.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="hideToast()"></button>
+      </div>
+    </div>
+  </div>
 
-        function validateInput() {
-            const input = document.getElementById('user_input').value.trim();
-            if (!input) {
-                const toast = document.getElementById('toast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3000);
-                return false;
-            }
-            return true;
-        }
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
 
-        function hideToast() {
-            document.getElementById('toast').classList.remove('show');
-        }
-    </script>
+    function validateInput() {
+      const input = document.getElementById('user_input').value.trim();
+      if (!input) {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+        return false;
+      }
+      return true;
+    }
+
+    function hideToast() {
+      document.getElementById('toast').classList.remove('show');
+    }
+  </script>
 </body>
 </html>

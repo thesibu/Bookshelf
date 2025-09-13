@@ -6,6 +6,7 @@ import pickle
 popular_df = pickle.load(open('popular.pkl', 'rb'))
 pt = pickle.load(open('pt.pkl', 'rb'))
 books = pickle.load(open('books.pkl', 'rb'))
+book_meta = pickle.load(open('book_metadata.pkl', 'rb'))
 similarity_scores = pickle.load(open('similarity_scores.pkl', 'rb'))
 
 app = Flask(__name__)
@@ -95,6 +96,23 @@ def sell():
             return render_template('sell.html', error="All fields are required.")
 
     return render_template('sell.html')
+
+@app.route('/genre/<genre>')
+def genre_books(genre):
+    genre = genre.lower()
+    genre_df = book_meta[book_meta['genre'].str.lower() == genre].drop_duplicates('Book-Title')
+
+    # Use placeholder ratings if not available
+    votes = [0] * len(genre_df)
+    ratings = [0] * len(genre_df)
+
+    return render_template('genre.html',
+                           genre=genre.title(),
+                           book_name=list(genre_df['Book-Title'].values),
+                           author=list(genre_df['Book-Author'].values),
+                           images=list(genre_df['Image-URL-M'].values),
+                           votes=votes,
+                           ratings=ratings)
 
 if __name__ == '__main__':
     app.run(debug=True)
