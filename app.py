@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,jsonify
 import numpy as np
 import pickle
 
@@ -113,6 +113,55 @@ def genre_books(genre):
                            images=list(genre_df['Image-URL-M'].values),
                            votes=votes,
                            ratings=ratings)
+
+
+
+
+book_data = [
+    {"name": "Book A", "author": "Author A", "image": "url_to_image_A"},
+    {"name": "Book B", "author": "Author B", "image": "url_to_image_B"},
+    {"name": "Book C", "author": "Author C", "image": "url_to_image_C"},
+]
+
+wishlist=[]
+@app.route('/wishlist', methods=['GET', 'POST'])
+def wishlist_api():
+    global wishlist
+    if request.method == 'POST':
+        data = request.get_json() or {}
+        name = data.get('name')
+        author = data.get('author')
+        image = data.get('image')
+        rating = data.get('rating', '')
+        votes = data.get('votes', '')
+
+        if not name:
+            return jsonify({"status": "error", "message": "Missing book name"}), 400
+
+        # create book dict
+        book = {
+            "name": name,
+            "author": author or "Unknown",
+            "image": image or "",
+            "rating": rating,
+            "votes": votes
+        }
+
+        # Prevent duplicates by name (case-insensitive)
+        if not any(b.get('name', '').strip().lower() == name.strip().lower() for b in wishlist):
+            wishlist.append(book)
+            return jsonify({"status": "success", "wishlist_count": len(wishlist)})
+        else:
+            return jsonify({"status": "exists", "wishlist_count": len(wishlist)})
+
+    # GET
+    return jsonify({"wishlist": wishlist})
+
+@app.route('/wishlist/view')
+def wishlist_view():
+    return render_template('wishlist.html', wishlist=wishlist)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

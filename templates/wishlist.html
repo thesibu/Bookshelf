@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Wishlist - BookNest</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body { background: #F9F6F1; font-family: 'Inter', sans-serif; }
+    .heading { margin: 40px 0 20px; font-size: 32px; font-family: 'Playfair Display', serif; font-weight: 600; color: #3E2C41; border-left: 6px solid #D4AF37; padding-left: 15px; }
+    .book-card { background: white; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.1); height: 460px; display: flex; flex-direction: column; justify-content: space-between; }
+    .book-img { width: 100%; max-height: 200px; object-fit: contain; background: #f4f4f4; border-top-left-radius: 12px; border-top-right-radius: 12px; padding: 10px; }
+    .card-body { padding: 20px; }
+    .book-title { font-weight: 600; font-size: 18px; }
+    .book-author { font-size: 15px; color: #6C5B7B; }
+    .rating { color: #D4AF37; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="heading">❤️ My Wishlist</div>
+    <div class="row g-4">
+      {% if wishlist and wishlist|length > 0 %}
+        {% for book in wishlist %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="card book-card">
+            <img class="book-img" src="{{ book.image or '/static/default-cover.png' }}" alt="Book Cover">
+            <div class="card-body">
+              <div class="book-title">{{ book.name }}</div>
+              <div class="book-author">{{ book.author }}</div>
+              <div class="rating">⭐ Ratings: {{ book.rating or 'N/A' }}</div>
+              <div class="rating">🗳️ Votes: {{ book.votes or 'N/A' }}</div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-12">
+          <p class="text-muted">No books saved yet. Go to the <a href="/">Top Books</a> and click Save to add books to your wishlist.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
